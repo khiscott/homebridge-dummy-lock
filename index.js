@@ -17,8 +17,6 @@ class DummyLock {
     this.lockState = Characteristic.LockCurrentState.SECURED;
   }
 
-
-
   getServices () {
     const informationService = new Service.AccessoryInformation()
         .setCharacteristic(Characteristic.Manufacturer, 'Acme')
@@ -26,48 +24,33 @@ class DummyLock {
         .setCharacteristic(Characteristic.SerialNumber, '1234');
 
     this.lockService.getCharacteristic(Characteristic.LockCurrentState)
-      .on('get', this.getLockCharacteristicHandler.bind(this));
+      .onGet(this.getLockState.bind(this));
 
     this.lockService.getCharacteristic(Characteristic.LockTargetState)
-      .on('get', this.getLockCharacteristicHandler.bind(this))
-      .on('set', this.setLockCharacteristicHandler.bind(this));
+      .onGet(this.getLockState.bind(this))
+      .onSet(this.setLockState.bind(this));
 
     return [informationService, this.lockService]
   }
 
-
-  actionCallback(err, result) {
-    if(err) {
-      this.updateCurrentState(Characteristic.LockCurrentState.JAMMED);
-      return console.error(err);
-    }
+  getLockState () {
+    return this.lockState;
   }
 
-  // Lock Handler
-  setLockCharacteristicHandler (targetState, callback) {
-    var lockh = this;
-
+  setLockState (targetState) {
     if (targetState == Characteristic.LockCurrentState.SECURED) {
-      this.log(`locking `+this.name, targetState)
-      this.lockState = targetState
-      this.updateCurrentState(this.lockState);
-      this.log(this.lockState+" "+this.name);
+      this.log(`locking ` + this.name, targetState)
     } else {
-      this.log(`unlocking `+this.name, targetState)
-      this.lockState = targetState
-      this.updateCurrentState(this.lockState);
-      this.log(this.lockState+" "+this.name);
+      this.log(`unlocking ` + this.name, targetState)
     }
-    callback();
+    this.lockState = targetState;
+    this.updateCurrentState(this.lockState);
+    this.log(this.lockState + ' ' + this.name);
   }
 
-  updateCurrentState(toState) {
+  updateCurrentState (toState) {
     this.lockService
       .getCharacteristic(Characteristic.LockCurrentState)
       .updateValue(toState);
-  }
-
-  getLockCharacteristicHandler (callback) {
-    callback(null, this.lockState);
   }
 }
