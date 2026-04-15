@@ -20,7 +20,7 @@ class DummyLock {
   getServices () {
     const informationService = new Service.AccessoryInformation()
         .setCharacteristic(Characteristic.Manufacturer, 'Acme')
-        .setCharacteristic(Characteristic.Model, 'Dummy Lock 1.0')
+        .setCharacteristic(Characteristic.Model, 'Dummy Lock 0.0.2')
         .setCharacteristic(Characteristic.SerialNumber, '1234');
 
     this.lockService.getCharacteristic(Characteristic.LockCurrentState)
