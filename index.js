@@ -10,18 +10,22 @@ module.exports = (homebridge) => {
 
 class DummyLock {
   constructor (log, config) {
-    // get config values
     this.log = log;
-    this.name = config['name'];
+    this.name = config.name;
+    this.manufacturer = config.manufacturer || 'Acme';
+    this.model = config.model || 'Dummy Lock';
+    this.serialNumber = config.serialNumber || '1234';
     this.lockService = new Service.LockMechanism(this.name);
-    this.lockState = Characteristic.LockCurrentState.SECURED;
+    this.lockState = config.initialState === 'unsecured'
+      ? Characteristic.LockCurrentState.UNSECURED
+      : Characteristic.LockCurrentState.SECURED;
   }
 
   getServices () {
     const informationService = new Service.AccessoryInformation()
-        .setCharacteristic(Characteristic.Manufacturer, 'Acme')
-        .setCharacteristic(Characteristic.Model, 'Dummy Lock 0.0.2')
-        .setCharacteristic(Characteristic.SerialNumber, '1234');
+        .setCharacteristic(Characteristic.Manufacturer, this.manufacturer)
+        .setCharacteristic(Characteristic.Model, this.model)
+        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber);
 
     this.lockService.getCharacteristic(Characteristic.LockCurrentState)
       .onGet(this.getLockState.bind(this));

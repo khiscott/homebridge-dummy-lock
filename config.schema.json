@@ -9,8 +9,47 @@
                 "type": "string",
                 "required": true,
                 "default": "Lock",
-                "description": "The name that will appear in your homebridge log."
+                "description": "The name that will appear in HomeKit and the Homebridge log."
+            },
+            "initialState": {
+                "title": "Initial State",
+                "type": "string",
+                "default": "secured",
+                "enum": ["secured", "unsecured"],
+                "description": "The lock state on Homebridge startup."
+            },
+            "manufacturer": {
+                "title": "Manufacturer",
+                "type": "string",
+                "default": "Acme",
+                "description": "Shown under the accessory details in the Home app."
+            },
+            "model": {
+                "title": "Model",
+                "type": "string",
+                "default": "Dummy Lock",
+                "description": "Shown under the accessory details in the Home app."
+            },
+            "serialNumber": {
+                "title": "Serial Number",
+                "type": "string",
+                "default": "1234",
+                "description": "Shown under the accessory details in the Home app."
             }
         }
-    }
+    },
+    "layout": [
+        {
+            "type": "fieldset",
+            "title": "Basic Settings",
+            "items": ["name", "initialState"]
+        },
+        {
+            "type": "fieldset",
+            "title": "Accessory Details",
+            "expandable": true,
+            "expanded": false,
+            "items": ["manufacturer", "model", "serialNumber"]
+        }
+    ]
 }
