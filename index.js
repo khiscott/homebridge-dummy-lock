@@ -1,5 +1,7 @@
 
 
+const { version } = require('./package.json')
+
 var Service, Characteristic
 
 module.exports = (homebridge) => {
@@ -25,7 +27,8 @@ class DummyLock {
     const informationService = new Service.AccessoryInformation()
         .setCharacteristic(Characteristic.Manufacturer, this.manufacturer)
         .setCharacteristic(Characteristic.Model, this.model)
-        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber);
+        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber)
+        .setCharacteristic(Characteristic.FirmwareRevision, version);
 
     this.lockService.getCharacteristic(Characteristic.LockCurrentState)
       .onGet(this.getLockState.bind(this));
