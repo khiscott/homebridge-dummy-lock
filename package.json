@@ -2,6 +2,8 @@
   "name": "homebridge-dummy-lock",
   "version": "0.0.3",
   "description": "Dummy lock for Homebridge",
+  "author": "khiscott",
+  "homepage": "https://github.com/khiscott/homebridge-dummy-lock",
   "license": "MIT",
   "keywords": [
     "homebridge-plugin"
