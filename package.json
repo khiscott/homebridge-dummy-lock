@@ -4,6 +4,7 @@
   "description": "Dummy lock for Homebridge",
   "author": "khiscott",
   "homepage": "https://github.com/khiscott/homebridge-dummy-lock",
+  "main": "index.js",
   "license": "MIT",
   "keywords": [
     "homebridge-plugin"
